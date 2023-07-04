@@ -1,0 +1,112 @@
+GIT Homework 1
+
+Для выполнения задания у вас должен быть установлен для Windows - GitBash.
+Создан аккаунт в GitHub
+Создан репозиторий в GitHub
+Созданный репозиторий склонирован на локальный компьютер в отдельную папку.
+
+Все шаги сценария выполняйте в терминале GitBush, Terminal, в папке под гитом.
+
+
+Как отправить ДЗ на проверку.
+ 1. Создайте текстоовый файл как в первом ДЗ по Terminal.
+ 2. Сценарий перенесите в этот файл.
+ 3. На против каждого действия - напишите команду в GitBash
+
+Файл со сценарием и ссылку на свой гит хаб отправляйте менторам на проверку.
+
+ 4. Создать файл “new.json” - touch new.json
+ 5. Добавить файл под гит. - git add new.json
+ 6. Закоммитить файл. - git commit -m "add new.json file"
+ 7. Отправить файл на внешний GitHub репозиторий. - git push
+ 8. Создать файлы new2.json, new2.xml, new2.txt - touch new2.json new2.xml new2.txt
+ 9. Добавить файлы под гит. - git add .
+ 10. Закоммитить файлы. - git commit -m "add new2.(json,txt,xml)"
+ 11. Отправить файлы на внешний GitHub репозиторий. - git push
+ 12. Отредактировать содержание файла “new2.txt” - написать информацию о себе (ФИО, возраст, количество домашних животных, будущая желаемая зарплата). 
+vim new2.txt
+insert
+name -Kovaleva Polina Yuryevna
+age -32
+pets -0
+future salary -2000$
+esc+ :wq
+ 13. Отредактировать содержание файла “new2.json” - написать информацию о себе (ФИО, возраст, количество домашних животных, будущая желаемая зарплата). Всё написать в формате JSON.
+vim new2.json
+insert
+{
+"name": "Kovaleva Polina Yuryevna",
+"age": 32,
+"pets": 0,
+"future_salary": "2000$"
+}
+esc+ :wq
+ 14. Добавить и закоммитить “new2.txt” одной строчкой.- git add new2.txt && git commit -m "add new2.txt"  
+ 15. Добавить и закоммитить “new2.json” одной строчкой. -git add new2.json && git commit -m "add new2.json"
+ 16. Отправить изменения на внешний репозиторий.- git push
+ 17. Отредактировать содержание файла “new2.xml” - написать информацию о себе (ФИО, возраст, количество домашних животных, будущая желаемая зарплата). Всё написать в формате XML.
+vim new2.xml
+insert
+<document
+name="Kovaleva Polina Yuryevna"
+age=32
+pets=0
+future_salary="2000$"
+>
+</document>
+esc+ :wq
+ 18. Добавить и закоммитить “new2.xml” одной строчкой. - git commit -a -m "add modified new2.xml file"
+ 19. Отправить изменения на внешний репозиторий. - git push
+
+ 20. Отправить предыдущее домашнее задание по GitBash Terminal на внешний репозиторий.
+cp 1_dz_linux_terminal.txt group_19/git_ssh/group_19
+git add 1_dz_linux_terminal.txt
+git commit -m "add dz linux_terminal"
+git push
+
+ 21. В веб интерфейсе GitHub создать файл new3.txt.
+Click "Add file"
+Click "Create new file"
+Insert the name of the file "new3.txt"
+Click "Commit new file"
+ 22. Отредактировать в веб интерфейсе содержание файла “new3.txt” - написать информацию о своих предпочтениях (Любимый фильм, любимый сериал, любимая еда, любимое время года, сторона которую хотели бы посетить).
+Click on new3.txt
+Click "Edit this file"
+Type the additional information:
+film - Fight Club
+serial - Dallas Buyers Club
+food - grilled fish
+season - summer
+country - Italy
+
+ 23. Сделать Commit changes (сохранить) изменения на веб интерфейсе. - Click "Commit changes"
+ 24. Синхронизировать внешний и локальный репозитории (слить изменения с внешнего репозитория) - git pull
+ 25. Отредактировать в веб интерфейсе содержание файла “new2.json” - добавить информацию о своих предпочтениях (Любимый фильм, любимый сериал, любимая еда, любимое время года, сторона которую хотели бы посетить). Всё в формате JSON.
+Click on new2.json
+Click "Edit this file"
+Type additional information:
+{
+"film": "Dallas Buyers Club",
+"serial": "Breaking bad",
+"food": "grilled fish",
+"season": "summer",
+"country": "Italy"
+}
+ 26. Сделать Commit changes (сохранить) изменения на веб интерфейсе. - Click "Commit changes"
+ 27. Синхронизировать внешний и локальный репозитории - git pull
+ 28. Отредактировать в веб интерфейсе содержание файла “new2.xml” - добавить информацию о своих предпочтениях (Любимый фильм, любимый сериал, любимая еда, любимое время года, сторона которую хотели бы посетить). Всё в формате XML.
+Click on new2.xml
+Click "Edit this file"
+Type additional information:
+<document
+film="Dallas Buyers Club"
+serial="Breaking bad"
+food="grilled fish"
+season="summer"
+country="Italy"
+>
+</document>
+ 29. Сделать Commit changes (сохранить) изменения на веб интерфейсе. - Click "Commit changes"
+ 30. Синхронизировать внешний и локальный репозитории - git pull
+
+Данные для заполнения и редактирования файлов можете использовать любые, не обязательно свои.
