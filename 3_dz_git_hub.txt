@@ -1,0 +1,102 @@
+GitHub. HW_2
+1. На локальном репозитории сделать ветки для:
+- Postman - git branch postman
+- Jmeter - git branch jmeter
+- CheckLists - git branch checklists
+- Bug Reports - git branch bug_reports
+- SQL - git branch sql
+- Charles - git branch charles
+- Mobile testing - git branch mobile_testing
+
+2. Запушить все ветки на внешний репозиторий - git push --all
+3. В ветке Bug Reports сделать текстовый документ со структурой баг репорта
+
+git checkout bug_reports
+touch b_r_str.txt
+vim b_r_str.txt
+	insert
+
+	1)Bug Report ID
+	2)Author (Reporter)
+	3)Bug Type
+	4)Severity
+	5)Title
+	6)URL
+	7)Steps to reprodce
+	8)Expected result
+	9)Actual result
+	10)Priority
+	11)Upload attachment
+	12)Environment (Operating system/Browser)
+
+	esc + :wq
+
+4. Запушить структуру багрепорта на внешний репозиторий - 
+
+git add b_r_str.txt
+git commit -m "add b_r_str.txt"
+git push
+
+5. Вмержить ветку Bug Reports в Main -
+
+git checkout main
+git merge bug_reports
+
+6. Запушить main на внешний репозиторий. - git push
+7. В ветке CheckLists набросать структуру чек листа. - 
+
+git checkout checklists
+touch checklist.txt
+vim checklist.txt
+	insert
+
+	1) Provide Usability testing:
+	-Check for broken links and images
+	-Home link should be there on every single page
+	-All the buttons should be in a standard format and size
+	-All fonts should be same as per the requirements
+	-Content should be without any spelling or grammatical errors
+
+	2)Provide Functional testing:
+	-Test all the mandatory fields should be validated
+	-Test the system should not display the error message for optional fields
+	-Test that a confirmation message should display for update and delete operations
+	-Test the functionality of the buttons available
+	-Test the email functionality of the system
+
+	3)Provide  Compatibility testing:
+	-Test the website in different browsers (HTML, images, fonts)
+	-Test the java script code is usable in different browsers
+
+ 	4)Provide Database testing:
+	-Verify the database name: The database name should match with the specifications
+	-Verify the Tables, columns, column types and defaults: All things should match with the specifications
+	-Test the stored procedure by writing simple SQL queries
+
+	5)Provide Security Testing:
+	-Verify the important information like password, credit card numbers etc should display in encrypted format
+	-Verify the error messages should not display any important information
+	-Verify the SQL injection attacks
+	
+	6)Provide Performance Testing:
+	-Determine the performance, stability and scalability of an application under different load conditions
+	-Determine if the current architecture can support the application at peak user levels
+
+	esc + :wq
+
+8. Запушить структуру на внешний репозиторий -
+
+git add checklist.txt
+git commit -m "add checklist.txt"
+git push --set-upstream origin checklists
+
+9. На внешнем репозитории сделать Pull Request ветки CheckLists в main - 
+
+Click the button "Compare & pull request"
+Click the button "Pull request"
+Click the button "Merge Pull request"
+Click the button "Confirm merge"
+10. Синхронизировать Внешнюю и Локальную ветки Main -
+
+git checkout main
+git pull
