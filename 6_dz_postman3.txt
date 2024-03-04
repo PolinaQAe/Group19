@@ -1,0 +1,460 @@
+HW3_Postman
+
+1) необходимо залогиниться
+POST
+http://162.55.220.72:5005/login
+login : str (кроме /)
+password : str
+
+-Create new http-request
+-Method POST
+-Go to Body
+	Set radio-button on 'form-data'
+	Type 'login' in the field KEY and 'user' in front of him in the field VALUE
+	Type 'password' in the field KEY on the second line and '123' in  front of him in the field VALUE 
+
+-Go to Tests
+ 
+let respJSON = pm.response.json();
+console.log(respJSON);
+pm.environment.set("token", respJSON.token);
+let token = pm.environment.get("token");
+console.log(token);
+
+Приходящий токен необходимо передать во все остальные запросы.
+
+===================
+дальше все запросы требуют наличие токена.
+===================
+
+2) http://162.55.220.72:5005/user_info
+req. (RAW JSON)
+POST
+age: int
+salary: int
+name: str
+auth_token
+
+
+resp.
+{'start_qa_salary':salary,
+ 'qa_salary_after_6_months': salary * 2,
+ 'qa_salary_after_12_months': salary * 2.9,
+ 'person': {'u_name':[user_name, salary, age],
+                                'u_age':age,
+                                'u_salary_1.5_year': salary * 4}
+                                }
+
+Тесты:
+
+1) Статус код 200
+
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+
+2) Проверка структуры json в ответе.
+- проверка наличия start_qa_salary в респонсе
+pm.test("Test_Body_contains_start_qa_salary", function () {
+    pm.expect(pm.response.text()).to.include("start_qa_salary");
+});
+
+- проверка наличия qa_salary_after_6_months в респонсе
+ pm.test("Test_Body_contains_qa_salary_after_6_months", function(){
+     pm.expect(pm.response.text()).to.include('qa_salary_after_6_months');
+ });
+
+- проверка наличия qa_salary_after_12_months в респонсе
+pm.test('Test_Body_contains_qa_salary_after_12_months', function(){
+    pm.expect(pm.response.text()).to.include('qa_salary_after_12_months');
+});
+
+- проверка наличия person в респонсе
+pm.test('Test_Body_contains_person', function(){
+    pm.expect(pm.response.text()).to.include('person');
+});
+
+- проверка наличия u_age в person в респонсе
+
+pm.test('Test_Body_person_contains_u_age', function(){
+    pm.expect(respJSON.person.hasOwnProperty("u_age")).to.eql(true);
+});
+
+- проверка наличия u_name в person в респонсе
+pm.test('Test_Body_person_contains_u_name', function(){
+    pm.expect(respJSON.person.hasOwnProperty("u_name")).to.eql(true);
+});
+
+- проверка наличия u_salary_1_5_year в респонсе
+pm.test('Test_Body_person_contains_u_salary_1_5_year', function(){
+    pm.expect(respJSON.person.hasOwnProperty("u_salary_1_5_year")).to.eql(true);
+});
+
+
+3) В ответе указаны коэффициенты умножения salary, напишите тесты по проверке правильности результата перемножения на коэффициент.
+
+-проверка start qa salary в респонсе = salary в реквесте
+pm.test('Test_RESP_start_qa_salary=REQ_salary', function(){
+    pm.expect(respJSON.start_qa_salary).to.eql(pm.environment.get("salary"));
+});
+
+-проверка qa_salary_after_6_months в респонсе = salary*2 в реквесте
+pm.test('Test_RESP_start_salary=REQ_salary*2', function(){
+    pm.expect(respJSON.qa_salary_after_6_months).to.eql(pm.environment.get('salary')*2);
+});
+
+-проверка qa_salary_after_12_months в респонсе = salary*2.9 в реквесте
+pm.test('Test_RESP_qa_salary_after_12_month=REQ_salary*2.9', function(){
+    pm.expect(respJSON.qa_salary_after_12_months).to.eql(pm.environment.get('salary')*2.9);
+});
+
+-проверка u_salary_1.5_year в респонсе = salary*4 в реквесте
+pm.test('Test_RESP_person_u_salary_1_5_year=REQ_salary*4', function(){
+    pm.expect(respJSON.person.u_salary_1_5_year).to.eql(pm.environment.get('salary')*4);
+});
+
+4) Достать значение из поля 'u_salary_1.5_year' и передать в поле salary запроса http://162.55.220.72:5005/get_test_user
+
+pm.environment.set("u_salary_1_5_year", respJSON.person.u_salary_1_5_year);
+-Create new http request http://162.55.220.72:5005/get_test_user
+-Go to Body, set radio button "form-data"
+-Type KEY - salary and VALUE {{u_salary_1.5_year}}
+
+
+===================
+
+3) http://162.55.220.72:5005/new_data
+req.
+POST
+age: int
+salary: int
+name: str
+auth_token
+
+Resp.
+{'name':name,
+  'age': int(age),
+  'salary': [salary, str(salary*2), str(salary*3)]}
+
+Тесты:
+1) Статус код 200
+pm.test("Test_Status_Code_200', function() {
+pm.response.to.have.status(200);
+});
+
+2) Проверка структуры json в ответе.
+let respJSON = pm.response.json();
+let reqJSON = request.data;
+
+-проверка наличия age в респонсе
+pm.test('Test_Body_contains_age', function(){
+    pm.expect(pm.response.text()).to.include('age');
+});
+
+-проверка наличия name в респонсе
+pm.test('Test_Body_contains_name', function(){
+    pm.expect(pm.response.text()).to.include('name');
+});
+
+-проверка наличия salary в респонсе
+pm.test('Test_Body_contains_salary', function(){
+    pm.expect(pm.response.text()).to.include('salary');
+});
+
+
+3) В ответе указаны коэффициенты умножения salary, напишите тесты по проверке правильности результата перемножения на коэффициент.
+-проверка salary[0] респонса = salary реквеста
+pm.test('Test_RESP_salary[0]=REQ_salary', function() {
+    pm.expect(respJSON.salary[0]).to.eql(+reqJSON.salary);
+});
+
+-проверка salary[1] респонса = salary*2 реквеста
+pm.test('Test_RESP_salary[1]=REQ_salary*2', function(){
+    pm.expect(+respJSON.salary[1]).to.eql(reqJSON.salary*2);
+});
+
+-проверка salary[2] респонса = salary*3 реквеста
+pm.test('Test_RESP_salary[2]=REQ_salary*3', function(){
+    pm.expect(+respJSON.salary[2]).to.eql(reqJSON.salary*3);
+});
+
+4) проверить, что 2-й элемент массива salary больше 1-го и 0-го
+
+-проверка 2-й элемент массива salary больше 0-го
+pm.test('Test_RESP_salary[2]>RESR_salary[0]', function(){
+    pm.expect(+respJSON.salary[2])>(respJSON.salary[0]);
+});
+
+-проверка 2-й элемент массива salary больше 1-го
+pm.test('Test_RESP_salary[2]>RESR_salary[1]', function(){
+    pm.expect(respJSON.salary[2])>(respJSON.salary[1]);
+});
+
+===================
+
+4) http://162.55.220.72:5005/test_pet_info
+req.
+POST
+age: int
+weight: int
+name: str
+auth_token
+
+
+Resp.
+
+{'name': name,
+ 'age': age,
+ 'daily_food':weight * 0.012,
+ 'daily_sleep': weight * 2.5}
+
+
+Тесты:
+1) Статус код 200
+pm.test('Test_Status_Code_200', function(){
+    pm.expect(pm.response).to.has.status(200);
+});
+
+2) Проверка структуры json в ответе.
+
+-проверка наличия age в респонсе
+pm.test('Test_Body_contains_age', function(){
+    pm.expect(pm.response.text()).to.include('age');
+});
+
+-проверка наличия daily_food в респонсе
+pm.test('Test_Body_contains_daily_food', function(){
+    pm.expect(pm.response.text()).to.include('daily_food');
+});
+
+-проверка наличия daily_sleep в респонсе
+pm.test('Test_Body_contains_daily_sleep', function(){
+    pm.expect(pm.response.text()).to.include('daily_sleep');
+});
+
+-проверка наличия name в респонсе
+pm.test('Test_Body_contains_name', function(){
+    pm.expect(pm.response.text()).to.include('name');
+});
+
+3) В ответе указаны коэффициенты умножения weight, напишите тесты по проверке правильности результата перемножения на коэффициент.
+
+-проверка daily_food респонса = weight*0.012 реквеста
+pm.test('Test_RESP_daily_food=REQ_weight*0.012',function(){
+    pm.expect(respJSON.daily_food).to.eql(reqJSON.weight*0.012);
+});
+
+-проверка daily_sleep респонса = weight*2.5 реквеста
+pm.test('Test_RESP_daily_sleep=REQ_weight*2.5', function(){
+    pm.expect(respJSON.daily_sleep).to.eql(reqJSON.weight*2.5);
+});
+===================
+
+5) http://162.55.220.72:5005/get_test_user
+req.
+POST
+age: int
+salary: int
+name: str
+auth_token
+
+Resp.
+{'name': name,
+ 'age':age,
+ 'salary': salary,
+ 'family':{'children':[['Alex', 24],['Kate', 12]],
+ 'u_salary_1.5_year': salary * 4}
+  }
+
+Тесты:
+1) Статус код 200
+pm.test('Test_RESP_has_Status_Code_200', function(){
+    pm.expect(pm.response).to.has.status(200);
+});
+
+2) Проверка структуры json в ответе.
+
+-проверка наличия age в респонсе
+pm.test('Test_Body_contains_age', function(){
+    pm.expect(pm.response.text()).to.include('age');
+});
+
+
+-проверка наличия family в респонсе
+pm.test('Test_Body_contains_family', function(){
+    pm.expect(pm.response.text()).to.include('family');
+});
+
+
+-проверка наличия в family элемента children в респонсе
+pm.test("Test_Body_contains_children_in_family", function(){
+    pm.expect(respJSON.family.hasOwnProperty('children')).to.eql(true);
+});
+
+
+-проверка наличия в family элемента u_salary_1_5_year в респонсе
+pm.test('Test_Body_contains_u_salary_1_5_year_in_family', function(){
+    pm.expect(respJSON.family.hasOwnProperty('u_salary_1_5_year')).to.eql(true);
+});
+
+-проверка наличия name в респонсе
+pm.test('Test_Body_contains_name', function(){
+    pm.expect(pm.response.text()).to.include('name');
+});
+
+-проверка наличия salary в респонсе
+pm.test('Test_Body_contains_salary', function(){
+    pm.expect(pm.response.text()).to.include('salary');
+});
+
+3) Проверить что занчение поля name = значению переменной name из окружения
+
+pm.test('Test_RESP_name = name_Environment', function(){
+    pm.expect(respJSON.name).to.eql(pm.environment.get('name'));
+});
+
+4) Проверить что занчение поля age в ответе соответсвует отправленному в запросе значению поля age
+pm.test('Test_RESP_age = REQ_age', function(){
+    pm.expect(respJSON.age).to.eql(reqJSON.age);
+});
+
+===================
+
+6) http://162.55.220.72:5005/currency
+req.
+POST
+auth_token
+
+Resp. Передаётся список массив объектов.
+[
+{"Cur_Abbreviation": str,
+ "Cur_ID": int,
+ "Cur_Name": str
+}
+…
+{"Cur_Abbreviation": str,
+ "Cur_ID": int,
+ "Cur_Name": str
+}
+]
+
+Тесты:
+1) Можете взять любой объект из присланного списка, используйте js random.
+function getRandomInRange(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+console.log(getRandomInRange(0, 303));
+
+> 199
+
+console.log(pm.response.json()[199];
+> {Cur_Abbreviation: "MXN", Cur_ID: 329, Cur_Name: "Мексиканское песо"}
+
+В объекте возьмите Cur_ID и передать через окружение в следующий запрос.
+pm.environment.set("Cur_ID", "329")
+ ===================
+
+7) http://162.55.220.72:5005/curr_byn
+req.
+POST
+auth_token
+curr_code: int
+
+Resp.
+{
+    "Cur_Abbreviation": str
+    "Cur_ID": int,
+    "Cur_Name": str,
+    "Cur_OfficialRate": float,
+    "Cur_Scale": int,
+    "Date": str
+}
+
+Тесты:
+1) Статус код 200
+pm.test('Test_Status_code_200', function(){
+    pm.expect(pm.response).to.has.status(200);
+});
+
+2) Проверка структуры json в ответе.
+
+-проверка наличия Cur_Abbreviation в респонсе
+pm.test('Test_Body_contains_Cur_Abbreviation', function(){
+    pm.expect(pm.response.text()).to.include('Cur_Abbreviation');
+});
+
+-проверка наличия Cur_ID в респонсе
+pm.test('Test_Body_contains_Cur_ID', function(){
+    pm.expect(pm.response.text()).to.include('Cur_ID');
+});
+
+-проверка наличия Cur_Name в респонсе
+pm.test('Test_Body_contains_Cur_Name', function(){
+    pm.expect(pm.response.text()).to.include('Cur_Name');
+});
+
+-проверка наличия Cur_OfficialRate в респонсе
+pm.test('Test_Body_contains_Cur_OfficialRate', function(){
+    pm.expect(pm.response.text()).to.include('Cur_OfficialRate');
+});
+
+-проверка наличия Cur_Scale в респонсе
+pm.test('Test_Body_contains_Cur_Scale', function(){
+    pm.expect(pm.response.text()).to.include('Cur_Scale');
+});
+
+-проверка наличия Date в респонсе
+pm.test('Test_Body_contains_Date', function(){
+    pm.expect(pm.response.text()).to.include('Date');
+});
+===============
+***
+1) получить список валют
+-get array with Cur_ID values
+
+console.log(pm.response.json().map(el => el.Cur_ID));
+
+2) итерировать список валют
+-creat loop for this array
+
+if (typeof currency_index !== 'undefined' && currency_index + 1 < currency.length){ 
+    //вторая и остальные итерации
+    //отправляем запрос на следующий элемент массива
+    pm.environment.set('currency_index', currency_index + 1);
+    pm.environment.set('Cur_ID', currency[currency_index + 1].Cur_ID);
+} else {
+    //первая итерация//
+    pm.environment.set('currency_index', 0);
+    pm.environment.set('Cur_ID', currency[0].Cur_ID);
+}
+
+
+3) в каждой итерации отправлять запрос на сервер для получения курса каждой валюты
+-send request for each loop iteration
+if (currency_index + 1 < currency.length){
+    //если есть - отправляем запрос
+    postman.setNextRequest("curr_byn");}
+
+4) если возвращается 500 код, переходим к следующей итреации
+-check if status code 500
+
+
+5) если получаем 200 код, проверяем response json на наличие поля "Cur_OfficialRate"
+-check if status code 200, then check existing field Cur_OfficialRate
+
+if( pm.response.code === 200) {
+    console.log(pm.response.json());
+}
+
+6) если поле есть, пишем в консоль инфу про валюту в виде response
+-show in console.log currancy value
+ 
+{
+    "Cur_Abbreviation": str
+    "Cur_ID": int,
+    "Cur_Name": str,
+    "Cur_OfficialRate": float,
+    "Cur_Scale": int,
+    "Date": str
+}
+7) переходим к следующей итерации
