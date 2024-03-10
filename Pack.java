@@ -2,24 +2,28 @@ package Pack;
 
 public class Pack {
     public static void main(String[] args) {
-        int color = 2;
+         Scanner scanner = new Scanner(System.in);
+        System.out.println("Введите число цвета- от 1 до 7: ");
+        int color = scanner.nextInt();
 
-        if (color == 1) {
+        if (color == 1) 
+        {
             System.out.println("Красный");
         }
-        if (color == 2) {
+        else if (color == 2)
+        {
             System.out.println("Оранжевый");
         }
-        if (color == 3) {
+         else if (color == 3) {
             System.out.println("Желтый");
         }
-        if (color == 4) {
+         else if (color == 4) {
             System.out.println("Зеленый");
         }
-        if (color == 5) {
+         else if (color == 5) {
             System.out.println("Голубой");
         }
-        if (color == 6) {
+        else if (color == 6) {
             System.out.println("Синий");
         } else {
             System.out.println("Фиолетовый");
