@@ -1,13 +1,9 @@
 public class CyclesTwo {
 public static void main (String[] args){
-
-
-
 int i = 1;
 int number = 9;
 int sum = 0;
-
-while (i <= number) {
+hile (i <= number) {
 sum += i;
 i++; }
 {
