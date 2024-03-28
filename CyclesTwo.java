@@ -7,8 +7,6 @@ public class Cy {
             sum += i;
             i++;
         }
-        {
-            System.out.println("Сумма чисел от 1 до " + number + " равна " + sum);
-        }
+        System.out.println("Сумма чисел от 1 до " + number + " равна " + sum);
     }
 }
