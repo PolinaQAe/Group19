@@ -1,0 +1,29 @@
+import java.util.Scanner;
+
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Введите число месяца: ");
+        int se = scanner.nextInt();
+
+        if (se == 1 || se == 2 || se == 12) {
+            System.out.println("Зима");
+        } else if (se == 3 || se == 4 || se == 5)
+        {
+            System.out.println("Весна");
+        }
+          else if (se == 6 || se == 7 || se == 8) {
+            System.out.println("Лето");
+        } else if (se == 9 || se == 10 || se == 11)
+        {
+            System.out.println( "Осень");
+        }
+          else
+        {
+            System.out.println("Нет такого месяца");
+        }
+
+    }
+}
